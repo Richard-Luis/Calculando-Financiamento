@@ -4,6 +4,9 @@ app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
 juros_fixo = 0.02
 
+def formato_brl(valor):
+    return f'{valor:,.2f}'.replace(",", "x").replace(".", ",").replace("x", ".")
+
 @app.route("/", methods=["GET", "POST"])
 def financiamento():
     resultado = None  
@@ -12,7 +15,7 @@ def financiamento():
         salario = float(request.form["salario"])
         valor = float(request.form["valor"])
         entrada = request.form.get("entrada", 0)
-        entrada = float(entrada) if entrada else 0
+        entrada = float(entrada.replace(".", "").replace(",", ".")) if entrada else 0
 
         valor_financiamento = valor - entrada
         limite = salario * 0.3
