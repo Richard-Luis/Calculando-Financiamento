@@ -27,9 +27,9 @@ def financiamento():
             )
         else:
             resultado = (
-                f'Financiamento de R${valor_financiamento:.2f} '
+                f'Financiamento de R${formato_brl(valor_financiamento)} '
                 f"com juros fixos de {juros_fixo*100:.2f}% ao mês."
-                f'Voce pagará {parcelas} parcelas de R${limite:.2f}'
+                f'Voce pagará {parcelas} parcelas de R${formato_brl(limite)}'
             )
 
     
