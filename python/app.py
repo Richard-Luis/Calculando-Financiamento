@@ -12,10 +12,11 @@ def financiamento():
     resultado = None  
 
     if request.method == "POST":
-        salario = float(request.form["salario"])
-        valor = float(request.form["valor"])
+        salario = float(request.form["salario"].replace(".", "").replace(",", "."))
+        valor = float(request.form["valor"].replace(".", "").replace(",", "."))
         entrada = request.form.get("entrada", 0)
         entrada = float(entrada.replace(".", "").replace(",", ".")) if entrada else 0
+
 
         valor_financiamento = valor - entrada
         limite = salario * 0.3
