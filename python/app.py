@@ -1,0 +1,36 @@
+from flask import Flask, render_template, request
+
+app = Flask(__name__, template_folder="../templates", static_folder="../static")
+
+juros_fixo = 0.02
+
+@app.route("/", methods=["GET", "POST"])
+def financiamento():
+    resultado = None  
+
+    if request.method == "POST":
+        salario = float(request.form["salario"])
+        valor = float(request.form["valor"])
+        entrada = request.form.get("entrada", 0)
+        entrada = float(entrada) if entrada else 0
+
+        valor_financiamento = valor - entrada
+        limite = salario * 0.3
+        parcelas = int(valor_financiamento // limite)
+
+        if parcelas <= 0:
+            resultado = (
+                f'Entrada maior ou igual ao valor do financiamento!'
+            )
+        else:
+            resultado = (
+                f'Financiamento de R${valor_financiamento:.2f} '
+                f"com juros fixos de {juros_fixo*100:.2f}% ao mês."
+                f'Voce pagará {parcelas} parcelas de R${limite:.2f}'
+            )
+
+    
+    return render_template("index.html", resultado=resultado)
+
+if __name__ == "__main__":
+    app.run(debug=True)
